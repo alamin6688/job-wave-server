@@ -26,8 +26,24 @@ const client = new MongoClient(uri, {
 });
 async function run() {
   try {
+    const jobsCollection = client.db("jobWave").collection("jobs");
+    const bidsCollection = client.db("jobWave").collection("bids");
+
     // Connect the client to the server	(optional starting in v4.7)
     // await client.connect();
+
+    // Get All Data From DB
+    app.get("/jobs", async (req, res) => {
+      const result = await jobsCollection.find().toArray();
+      res.send(result);
+    });
+
+
+
+
+
+    
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
