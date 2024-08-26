@@ -39,19 +39,27 @@ async function run() {
     });
 
     // Get A Single Job Data From DB By ID
-    app.get('/job/:id', async (req, res) => {
-      const id = req.params.id
-      const query = { _id: new ObjectId(id) }
-      const result = await jobsCollection.findOne(query)
-      res.send(result)
-    })
+    app.get("/job/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await jobsCollection.findOne(query);
+      res.send(result);
+    });
+
+    // Save A Bid Data In DB
+    app.post("/bid", async (req, res) => {
+      const bidData = req.body;
+      const result = await bidsCollection.insertOne(bidData);
+      res.send(result);
+    });
+
+
 
 
 
 
 
     
-
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
