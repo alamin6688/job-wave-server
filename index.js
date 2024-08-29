@@ -63,7 +63,7 @@ async function run() {
     // Get All Jobs Posted By A Specific User
     app.get("/jobs/:email", async (req, res) => {
       const email = req.params.email;
-      const query = { "buyer.email": email };
+      const query = { email };
       const result = await jobsCollection.find(query).toArray();
       res.send(result);
     });
@@ -90,6 +90,25 @@ async function run() {
       const result = await jobsCollection.updateOne(query, updatedDoc, options);
       res.send(result);
     });
+
+    // Get All Bids For A User By Email From DB
+    app.get("/my-bids/:email", async (req, res) => {
+      const email = req.params.email;
+      const query = { email };
+      const result = await bidsCollection.find(query).toArray();
+      res.send(result);
+    });
+
+    // Get All Bid Request From DB For Job Owner
+    app.get("/bid-requests/:email", async (req, res) => {
+      const email = req.params.email;
+      const query = { "buyer.email": email };
+      const result = await bidsCollection.find(query).toArray();
+      res.send(result);
+    });
+
+
+    
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
