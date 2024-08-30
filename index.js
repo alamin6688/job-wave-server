@@ -102,7 +102,7 @@ async function run() {
     // Get All Bid Request From DB For Job Owner
     app.get("/bid-requests/:email", async (req, res) => {
       const email = req.params.email;
-      const query = { "buyer.email": email };
+      const query = { 'buyer.email': email };
       const result = await bidsCollection.find(query).toArray();
       res.send(result);
     });
