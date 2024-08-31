@@ -92,7 +92,7 @@ async function run() {
     });
 
     // Get All Bids For A User By Email From DB
-    app.get("/my-bids/:email", async (req, res) => {
+    app.get('/my-bids/:email', async (req, res) => {
       const email = req.params.email;
       const query = { email };
       const result = await bidsCollection.find(query).toArray();
@@ -100,12 +100,27 @@ async function run() {
     });
 
     // Get All Bid Request From DB For Job Owner
-    app.get("/bid-requests/:email", async (req, res) => {
+    app.get('/bid-requests/:email', async (req, res) => {
       const email = req.params.email;
       const query = { 'buyer.email': email };
       const result = await bidsCollection.find(query).toArray();
       res.send(result);
     });
+
+    // Update Bid Status
+    app.patch('/bid/:id', async (req, res) => {
+      const id = req.params.id;
+      const status = req.body;
+      const query = { _id: new ObjectId(id) };
+      const updatedDoc = {
+        $set : status,
+      }
+      const result = await bidsCollection.updateOne(query, updatedDoc);
+      res.send(result)   
+    })
+
+
+
 
 
     
