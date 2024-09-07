@@ -107,7 +107,7 @@ async function run() {
       if (alreadyApplied) {
         return res
           .status(400)
-          .send("You have already placed a bid on this job.");
+          .send("Bid Already Placed On This Job!");
       }
 
       const result = await bidsCollection.insertOne(bidData);
