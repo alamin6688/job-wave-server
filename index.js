@@ -105,9 +105,7 @@ async function run() {
       const alreadyApplied = await bidsCollection.findOne(query);
       console.log(alreadyApplied);
       if (alreadyApplied) {
-        return res
-          .status(400)
-          .send("Bid Already Placed On This Job!");
+        return res.status(400).send("Bid Already Placed On This Job!");
       }
 
       const result = await bidsCollection.insertOne(bidData);
@@ -190,6 +188,25 @@ async function run() {
       };
       const result = await bidsCollection.updateOne(query, updatedDoc);
       res.send(result);
+    });
+
+    // Get All Data From DB For Paginaion
+    app.get("/all-jobs", async (req, res) => {
+      const size = parseInt(req.query.size);
+      const page = parseInt(req.query.page) - 1;
+      console.log(size, page);
+      const result = await jobsCollection
+        .find()
+        .skip(page * size)
+        .limit(size)
+        .toArray();
+      res.send(result);
+    });
+
+    // Get All Jobs Data Count From DB
+    app.get("/all-jobs-count", async (req, res) => {
+      const count = await jobsCollection.countDocuments();
+      res.send({ count });
     });
 
     // Send a ping to confirm a successful connection
