@@ -9,7 +9,12 @@ const port = process.env.PORT || 5000;
 
 // Middleware
 const corsOptions = {
-  origin: ["http://localhost:5000", "http://localhost:5173"],
+  origin: [
+    "http://localhost:5000",
+    "http://localhost:5173",
+    "https://job-wave.netlify.app",
+    "https://job-wave-client.web.app",
+  ],
   credentials: true,
   optionSuccessStatus: 200,
 };
@@ -246,7 +251,7 @@ async function run() {
 run().catch(console.dir);
 
 app.get("/", (req, res) => {
-  res.send("jobWave is running!");
+  res.send("Job Wave is running!");
 });
 
 app.listen(port, () => {
