@@ -14,6 +14,7 @@ const corsOptions = {
     "http://localhost:5173",
     "https://job-wave.netlify.app",
     "https://job-wave-client.web.app",
+    "https://job-wave-client.vercel.app",
   ],
   credentials: true,
   optionSuccessStatus: 200,
@@ -66,8 +67,10 @@ async function run() {
       res
         .cookie("token", token, {
           httpOnly: true,
-          secure: process.env.NODE_ENV === "production",
-          sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+          secure: true, // Always use secure in production (Vercel uses HTTPS)
+          sameSite: "none", // Required for cross-origin cookies
+          path: "/", // Ensure cookie is available for all routes
+          maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
         })
         .send({ success: true });
     });
@@ -77,8 +80,9 @@ async function run() {
       res
         .clearCookie("token", {
           httpOnly: true,
-          secure: process.env.NODE_ENV === "production",
-          sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+          secure: true,
+          sameSite: "none",
+          path: "/",
           maxAge: 0,
         })
         .send({ success: true });
