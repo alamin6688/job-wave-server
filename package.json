@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "build": "echo 'Build complete'"
+    "start": "node init && node index.js",
+    "build": "node init && echo 'Build complete'"
   },
   "keywords": [],
   "author": "",
